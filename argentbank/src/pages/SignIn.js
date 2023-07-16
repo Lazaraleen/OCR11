@@ -1,73 +1,64 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-// import useFetch from '../assets/useFetch';
+import { useState } from 'react';
 import './style.css';
+import { useDispatch } from 'react-redux';
 
 
 
 function SignIn() {  
-
-  // *************************************** First méthode *************************************************
   
-  document.querySelector("#connect").addEventListener("click", function(event){
-      event.preventDefault();
-      // Récupérer les données du formulaire
-      const email = document.getElementById("username").value;
-      const password = document.getElementById("password").value;
-      
-      // Envoyer les données à l'API
-      fetch("http://" + window.location.hostname + ":3001/api/v1/user/login", {
-          method: "POST",
-          body: JSON.stringify({ email, password }),
-          headers: {
-              "Content-type": "application/json; charset=UTF-8"
-          }
-      })
-      .then(response => response.json())
-      .then(data => {
-        // Empêcher l'accès à la page juste en cliquant sur "se connecter"
-        // Stocker les informations utilisateur localement
-        sessionStorage.setItem("token", data.token);
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
 
-        // Rediriger l'utilisateur vers la page d'accueil 
-        if (sessionStorage.token !== "undefined"){ window.location.href = "./index.html"; }
-        else { 
-          window.location.href = "./login.html"; 
-          alert("Email ou mot de passe incorrect.");
-        }
-        
-      })
-      .catch(error => {
-        // Afficher un message d'erreur pour l'utilisateur
-        console.error("Erreur lors de la connexion:", error);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userData = { username, password };
+    try {
+      const response = await fetch('http://localhost:3001/api/v1/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
       });
-  });
+      console.log(userData);
+      if (response.ok) {
+        const user = await response.json();
+        dispatch({ type: 'LOGIN_SUCCESS', payload: user });
+      } else {
+        const errorData = await response.json();
+        dispatch({ type: 'LOGIN_FAILURE', payload: errorData.error });
+      }
+    } catch (error) {
+      dispatch({ type: 'LOGIN_FAILURE', payload: "Une erreur s'est produite lors de la connexion." });
+    }
+  };
 
-
-  // *******************************************************************************************************
- 
-  // *************************************** Autre méthode *************************************************
-  
-  // const email = document.getElementById("username").value;
-  // // const password = document.getElementById("password").value;
-  // const { data: quote, loading, error } = useFetch('http://localhost:3001/api/v1/user/login');
-  // console.log(email);
-
-  // *******************************************************************************************************
-  
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="input-wrapper">
             <label for="username">Username</label>
-            <input type="text" id="username" />
+            <input 
+              type="text" 
+              id="username" 
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
           </div>
           <div className="input-wrapper">
             <label for="password">Password</label>
-            <input type="password" id="password" />
+            <input 
+              type="password" 
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)} 
+            />
           </div>
           <div className="input-remember">
             <input type="checkbox" id="remember-me" />
@@ -80,11 +71,6 @@ function SignIn() {
           </button>
         </form>
       </section>
-      {/* <div className="App">
-      { loading && <p>{loading}</p> }
-      { quote && <p>"{quote}"</p> }
-      { error && <p>{error}</p> }
-    </div> */}
     </main>
   );
 }
