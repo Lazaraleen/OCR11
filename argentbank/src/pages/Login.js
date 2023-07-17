@@ -4,8 +4,6 @@ import { useState } from 'react';
 import './style.css';
 import { useDispatch } from 'react-redux';
 
-
-
 function SignIn() {  
   
   const [username, setUsername] = useState('');
@@ -64,7 +62,7 @@ function SignIn() {
             <input type="checkbox" id="remember-me" />
             <label for="remember-me">Remember me</label>
           </div>
-          <button className="sign-in-button" id="connect" type="submit">
+          <button className="sign-in-button" id="connect" type="submit" >
             <NavLink to="/user">
                 Sign In
             </NavLink>

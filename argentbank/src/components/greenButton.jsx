@@ -2,8 +2,8 @@ import React from "react";
 
 function GreenButton() {
   return (
-    <div class="account-content-wrapper cta">
-        <button class="transaction-button">View transactions</button>
+    <div className="account-content-wrapper cta">
+        <button className="transaction-button">View transactions</button>
     </div>
     )
 }

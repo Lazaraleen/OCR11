@@ -26,9 +26,9 @@ function CardCircle() {
     <>
       {data.map((detail) => {
           return(
-            <div class="feature-item" key={detail.title}>
-                <img src={detail.img} alt="Chat Icon" class="feature-icon" />
-                <h3 class="feature-item-title">{detail.title}</h3>
+            <div className="feature-item" key={detail.title}>
+                <img src={detail.img} alt="Chat Icon" className="feature-icon" />
+                <h3 className="feature-item-title">{detail.title}</h3>
                 <p>{detail.text}</p>
             </div>
             )

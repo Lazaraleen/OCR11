@@ -24,11 +24,11 @@ function BankLine() {
     <>
       {line.map((detail, index) => {
           return(
-            <section class="account" key={index}>
-                <div class="account-content-wrapper">
-                    <h3 class="account-title">{detail.transaction}</h3>
-                    <p class="account-amount">{detail.argent}</p>
-                    <p class="account-amount-description">{detail.balance}</p>
+            <section className="account" key={index}>
+                <div className="account-content-wrapper">
+                    <h3 className="account-title">{detail.transaction}</h3>
+                    <p className="account-amount">{detail.argent}</p>
+                    <p className="account-amount-description">{detail.balance}</p>
                 </div>
                 <GreenButton />
             </section>

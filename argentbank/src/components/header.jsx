@@ -4,26 +4,26 @@ import logo from '../assets/img/argentBankLogo.png';
 
 function Header() {
     return (
-        <nav class="main-nav">
+        <nav className="main-nav">
             <NavLink to="/">
-                <div class="main-nav-logo">
+                <div className="main-nav-logo">
                     <img
-                    class="main-nav-logo-image"
+                    className="main-nav-logo-image"
                     src={logo}
                     alt="Argent Bank Logo"
                     />
                 </div>            
             </NavLink>
-            <div class="center">
-                <div class="main-nav-item">
+            <div className="center">
+                <div className="main-nav-item">
                     <NavLink to="/signin">
-                        <i class="fa fa-user-circle"></i>
+                        <i className="fa fa-user-circle"></i>
                         Sign In
                     </NavLink>
                 </div>
-                <div class="main-nav-item invisible">
+                <div className="main-nav-item invisible">
                     <NavLink to="/">
-                        <i class="fa fa-user-circle"></i>
+                        <i className="fa fa-user-circle"></i>
                         Log out
                     </NavLink>
                 </div>
