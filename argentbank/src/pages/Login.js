@@ -1,52 +1,37 @@
 import React from "react";
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from "react-router-dom";
 import { useState } from 'react';
+import { login } from '../redux/userSlice';
 import './style.css';
-import { useDispatch } from 'react-redux';
 
 function SignIn() {  
-  
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const dispatch = useDispatch();
 
-  const handleSubmit = async (e) => {
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const error = useSelector((state) => state.user.error);
+  const token = useSelector((state) => state.user.token);
+
+  const handleSignIn = (e) => {
     e.preventDefault();
-    const userData = { username, password };
-    try {
-      const response = await fetch('http://localhost:3001/api/v1/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(userData),
-      });
-      console.log(userData);
-      if (response.ok) {
-        const user = await response.json();
-        dispatch({ type: 'LOGIN_SUCCESS', payload: user });
-      } else {
-        const errorData = await response.json();
-        dispatch({ type: 'LOGIN_FAILURE', payload: errorData.error });
-      }
-    } catch (error) {
-      dispatch({ type: 'LOGIN_FAILURE', payload: "Une erreur s'est produite lors de la connexion." });
-    }
+    dispatch(login(email, password));
   };
+
 
   return (
     <main className="main bg-dark">
       <section className="sign-in-content">
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSignIn}>
           <div className="input-wrapper">
             <label for="username">Username</label>
             <input 
               type="text" 
-              id="username" 
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              id="email" 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div className="input-wrapper">
@@ -63,11 +48,18 @@ function SignIn() {
             <label for="remember-me">Remember me</label>
           </div>
           <button className="sign-in-button" id="connect" type="submit" >
-            <NavLink to="/user">
+            {token ? (
+              <NavLink to="/user">
                 Sign In
-            </NavLink>
+              </NavLink>
+            ) : (
+              <span>Sign In</span>
+            )}
           </button>
         </form>
+        <div className="input-error">
+          {error && <p>{error}</p>}
+        </div>
       </section>
     </main>
   );

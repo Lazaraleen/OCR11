@@ -3,15 +3,11 @@ import '../App.css';
 import Home from '../pages/Home';
 import SignIn from '../pages/Login';
 import User from '../pages/User';
-// import Register from '../redux/register';
-import Login from '../redux/login';
 
 function RoutesReact() {
   return (
       <Routes>
           <Route path='/' element={<Home />} />
-          {/* <Route path='/' element={<Register />} /> */}
-          {/* <Route path='/' element={<Login />} /> */}
           <Route path='/home' element={<Home />} />
           <Route path='/signin' element={<SignIn />} />
           <Route path='/user' element={<User />} />

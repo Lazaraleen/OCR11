@@ -1,8 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../redux/userSlice';
 import logo from '../assets/img/argentBankLogo.png';
 
 function Header() {
+    const dispatch = useDispatch();
+    const token = useSelector((state) => state.user.token);
+
+    const handleLogout = () => {
+        // Dispatch de l'action "logout" pour supprimer le token
+        dispatch(logout());
+    };
+    
     return (
         <nav className="main-nav">
             <NavLink to="/">
@@ -16,16 +26,17 @@ function Header() {
             </NavLink>
             <div className="center">
                 <div className="main-nav-item">
-                    <NavLink to="/signin">
-                        <i className="fa fa-user-circle"></i>
-                        Sign In
-                    </NavLink>
-                </div>
-                <div className="main-nav-item invisible">
-                    <NavLink to="/">
+                {token ? (
+                    <NavLink to="/" onClick={handleLogout}>
                         <i className="fa fa-user-circle"></i>
                         Log out
                     </NavLink>
+                ) : (
+                    <NavLink to="/signin">
+                        <i className="fa fa-user-circle"></i>
+                        Sign In
+                    </NavLink>                
+                )}
                 </div>
             </div>
         </nav>
