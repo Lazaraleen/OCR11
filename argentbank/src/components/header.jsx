@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/userSlice';
+import { logoutUser } from '../redux/userSlice';
 import logo from '../assets/img/argentBankLogo.png';
 
 function Header() {
@@ -10,7 +10,7 @@ function Header() {
 
     const handleLogout = () => {
         // Dispatch de l'action "logout" pour supprimer le token
-        dispatch(logout());
+        dispatch(logoutUser());
     };
     
     return (
