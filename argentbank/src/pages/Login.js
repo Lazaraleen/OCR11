@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { login } from '../redux/userSlice';
 import './style.css';
@@ -12,12 +13,17 @@ function SignIn() {
   const [password, setPassword] = useState('');
   const error = useSelector((state) => state.user.error);
   const token = useSelector((state) => state.user.token);
+  const navigate = useNavigate();
 
   const handleSignIn = (e) => {
     e.preventDefault();
     dispatch(login(email, password));
   };
 
+  // Effectuer la redirection manuelle vers la page "User.js" si le token est disponible
+  if (token) {
+    navigate("/user");
+  }
 
   return (
     <main className="main bg-dark">
@@ -48,13 +54,14 @@ function SignIn() {
             <label for="remember-me">Remember me</label>
           </div>
           <button className="sign-in-button" id="connect" type="submit" >
-            {token ? (
+            {/* {token ? (
               <NavLink to="/user">
                 Sign In
               </NavLink>
             ) : (
               <span>Sign In</span>
-            )}
+            )} */}
+            <span>Sign In</span>
           </button>
         </form>
         <div className="input-error">

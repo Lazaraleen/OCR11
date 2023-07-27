@@ -1,17 +1,17 @@
 import React from "react";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { loadUserProfileSuccess, loadUserProfileFailure } from "../redux/userSlice";
-import { loadUserProfile } from "../redux/userSlice";
+// import { loadUserProfile } from "../redux/userSlice";
 import BankLine from "../components/bankLine";
 import './style.css';
 
 function User() {
     const dispatch = useDispatch();
     // Obtenir les informations de l'utilisateur depuis l'état Redux
-    const user = useSelector((state) => state.user);
-    const token = useSelector((state) => state.token);
+    // const user = useSelector((state) => state.user);
+    // const token = useSelector((state) => state.token);
 
     useEffect(() => {
         // Appel de l'API pour récupérer le profil de l'utilisateur
@@ -38,23 +38,23 @@ function User() {
         fetchUserProfile();
     }, [dispatch]);
 
-    useEffect(() => {
-        // Vérifier si l'utilisateur est connecté (le token est disponible)
-        if (token) {
-            // Appeler l'API pour récupérer le profil de l'utilisateur
-            dispatch(loadUserProfile());
-        }
-    }, [dispatch, token]);
+    // useEffect(() => {
+    //     // Vérifier si l'utilisateur est connecté (le token est disponible)
+    //     if (token) {
+    //         // Appeler l'API pour récupérer le profil de l'utilisateur
+    //         dispatch(loadUserProfile());
+    //     }
+    // }, [dispatch, token]);
 
     return (
         <main className="main bg-dark2">
             <div className="header">
-                {/* <h1>Welcome back<br />Tony Jarvis!</h1> */}
-                {user && user.firstName && (
+                <h1>Welcome back<br />Tony Jarvis!</h1>
+                {/* {user && user.firstName && (
                 <h1>
                     Welcome back<br /> {user.firstName} {user.lastName}!
                 </h1>
-                )}
+                )} */}
                 <button className="edit-button">Edit Name</button>
             </div>
             <h2 className="sr-only">Accounts</h2>

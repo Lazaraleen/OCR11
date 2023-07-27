@@ -13,9 +13,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      state.token = action.payload.token;
+      state.token = action.payload;
       state.error = null;
-      state.user = action.payload.user;
+      // state.user = action.payload.user;
     },
     loginFailure: (state, action) => {
       state.token = null;
