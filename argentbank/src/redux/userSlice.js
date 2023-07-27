@@ -13,8 +13,9 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     loginSuccess: (state, action) => {
-      state.token = action.payload;
+      state.token = action.payload.token;
       state.error = null;
+      state.user = action.payload.user;
     },
     loginFailure: (state, action) => {
       state.token = null;
@@ -25,10 +26,11 @@ const userSlice = createSlice({
         state.user = null; // Réinitialiser les données du profil lors de la déconnexion
         state.error = null;
     },
+
+
     // Nouvelle action pour charger les données du profil de l'utilisateur
     loadUserProfileSuccess: (state, action) => {
       state.user = action.payload;
-      state.userName = action.payload.email.split('@')[0]; // Extraire le nom de l'email et le stocker dans userName
     },
     loadUserProfileFailure: (state, action) => {
       state.user = null;
@@ -62,8 +64,9 @@ export const login = (email, password) => async (dispatch) => {
     dispatch(loginSuccess(response.data.body.token));
 
   } catch (error) {
-    const errorMessage = error.response ? error.response.data.message : 'Username or email invalid';
-    dispatch(loginFailure(errorMessage));
+    dispatch(loginFailure('Invalid username or password'));
+    // const errorMessage = error.response ? error.response.data.message : 'Username or email invalid';
+    // dispatch(loginFailure(errorMessage));
   }
 };
 
