@@ -2,8 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import { setToken, setError } from '../redux/userSlice'; // Importer les actions nécessaires
-import axios from 'axios';
+import { login } from '../redux/userSlice';
 import './style.css';
 
 function SignIn() {  
@@ -15,25 +14,9 @@ function SignIn() {
   const token = useSelector((state) => state.user.token);
   const navigate = useNavigate();
 
-  const handleSignIn = async (e) => {
+  const handleSignIn = (e) => {
     e.preventDefault();
-    try {
-        const response = await axios.post('http://localhost:3001/api/v1/user/login', {
-          email,
-          password,
-        });
-        const token = response.data.body.token;
-        // Mettre le token dans le localStorage
-        localStorage.setItem('token', token);
-        // Dispatch l'action setToken avec le token récupéré pour mettre à jour le state
-        dispatch(setToken(token));
-        // Effectuer la redirection manuelle vers la page "User.js" après la connexion réussie
-        navigate("/user");
-      } catch (error) {
-        console.error('Erreur lors de la connexion :', error.message);
-        // Dispatch l'action setError avec le message d'erreur approprié pour mettre à jour le state
-        dispatch(setError("Erreur de connexion : email ou mot de passe incorrect."));
-      }
+    dispatch(login(email, password));
   };
 
   // Effectuer la redirection manuelle vers la page "User.js" si le token est disponible

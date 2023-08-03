@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../redux/userSlice';
+import { logoutUser } from '../redux/userSlice';
 import logo from '../assets/img/argentBankLogo.png';
 
 function Header() {
@@ -10,7 +10,7 @@ function Header() {
 
     const handleLogout = () => {
         // Dispatch de l'action "logout" pour supprimer le token
-        dispatch(logout());
+        dispatch(logoutUser());
     };
     
     return (
@@ -27,13 +27,11 @@ function Header() {
             <div className="center">
                 <div className="main-nav-item">
                 {token ? (
-                    // Afficher "Log Out" si l'utilisateur est connecté
                     <NavLink to="/" onClick={handleLogout}>
                         <i className="fa fa-user-circle"></i>
                         Log out
                     </NavLink>
                 ) : (
-                    // Sinon, afficher "Sign In" si l'utilisateur n'est pas connecté
                     <NavLink to="/signin">
                         <i className="fa fa-user-circle"></i>
                         Sign In
