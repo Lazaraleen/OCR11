@@ -7,6 +7,7 @@ import logo from '../assets/img/argentBankLogo.png';
 function Header() {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.user.token);
+    const userProfile = useSelector((state) => state.profil);
 
     const handleLogout = () => {
         // Dispatch de l'action "logout" pour supprimer le token
@@ -25,16 +26,22 @@ function Header() {
                 </div>            
             </NavLink>
             <div className="center">
-                <div className="main-nav-item">
+                <div>
                 {token ? (
-                    // Afficher "Log Out" si l'utilisateur est connecté
-                    <NavLink to="/" onClick={handleLogout}>
+                    // Afficher "Log Out" si l'utilisateur est connecté ... c'est Sign Out au lieu de Log Out
+                    <>
+                    <NavLink to="/user" className="main-nav-item">
                         <i className="fa fa-user-circle"></i>
-                        Log out
+                        {userProfile.firstName}
                     </NavLink>
+                    <NavLink to="/" onClick={handleLogout} className="main-nav-item">
+                        <i className="fa fa-sign-out"></i>
+                        Sign Out
+                    </NavLink>
+                    </>
                 ) : (
                     // Sinon, afficher "Sign In" si l'utilisateur n'est pas connecté
-                    <NavLink to="/signin">
+                    <NavLink to="/signin" className="main-nav-item">
                         <i className="fa fa-user-circle"></i>
                         Sign In
                     </NavLink>                
