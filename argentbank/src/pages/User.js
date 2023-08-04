@@ -1,38 +1,33 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom";
+import { profilUser } from "../redux/profilSlice";
+import { callAPI } from "../API/apiConnect";
 import BankLine from "../components/bankLine";
-import { fetchUserProfile } from '../redux/profilSlice';
 
 function User() {
     const dispatch = useDispatch();
     const token = useSelector((state) => state.user.token);
-    const navigate = useNavigate();
-    const userProfile = useSelector((state) => state.profil.profile);
-    const isLoading = useSelector((state) => state.profil.loading);
+    const userProfile = useSelector((state) => state.profil);
+    const [newName, setNewName] = useState(false);
 
     useEffect(() => {
-        // Vérifier si le token est présent dans le state de Redux ou dans le localStorage
-        // Vérifier si le token est disponible pour récupérer les données du profil
-        if (token) {
-            dispatch(fetchUserProfile(token));
-        } else {
-            // Si le token n'est pas disponible, rediriger vers la page de connexion
-            navigate("/signin");
-        }
-    }, [dispatch, token, navigate]);
+        // récupérer les données de l'utilisateur
+        const dataUser = async () => {
+            try {
+                const data = await callAPI ("profilePost", token, {});
+                dispatch(profilUser({data}));
+            } catch (error) {
+                console.log (error, "Erreur à l'appel d'API");
+            }
+        };
+        dataUser();
+    });
 
-    // Afficher une indication de chargement si les données du profil sont en train d'être récupérées
-    if (isLoading) {
-        return <div>Loading...</div>;
+    const handleNewName = () => {
+        setNewName(!newName);
     }
 
-    // Vérifier si userProfile est null avant de lire ses propriétés
-    if (!userProfile) {
-        return <div>Loading...</div>;
-    };
 
-    // Si le token existe, afficher le contenu de la page
     return (
         <main className="main bg-dark2">
         {/* <div className="header">
@@ -42,7 +37,8 @@ function User() {
         {userProfile ? (
             <div className="header">
             <h1>Welcome back<br />{userProfile.firstName} {userProfile.lastName}!</h1>
-            <button className="edit-button">Edit Name</button>
+            <button className="edit-button" onClick={handleNewName}>Edit Name</button>
+            {/* Prévoir de faire une modale pour donner un nouveau nom */}
             </div>
         ) : (
             <div className="header">

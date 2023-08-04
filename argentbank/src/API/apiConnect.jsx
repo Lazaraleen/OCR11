@@ -28,7 +28,7 @@ const apiConnect = {
 
 // Gérer les appels à l'API
 
-const callAPI = async (connect, token, data={}) => {
+export const callAPI = async (connect, token, data={}) => {
     const connectAPI = apiConnect[connect];
     if (!connectAPI) {
         console.error("Erreur de connexion à l'API");
@@ -57,4 +57,4 @@ const callAPI = async (connect, token, data={}) => {
     }
 };
 
-export default callAPI;
+// export default callAPI;
