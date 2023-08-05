@@ -13,9 +13,9 @@ const line = [
         "balance" : "Available Balance"
     },
     {
-        "transaction" : "Argent Bank Checking (x8349)",
-        "argent" : "$2,082.79",
-        "balance" : "Available Balance"
+        "transaction" : "Argent Bank Credit Card (x8349)",
+        "argent" : "$184.30",
+        "balance" : "Current Balance"
     }
 ]
 
