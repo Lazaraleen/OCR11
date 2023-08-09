@@ -21,6 +21,8 @@ node --version
 mongo --version
 ```
 
+(J'ai installé NVS et lancé la commande "nvs use 12.12" sur le terminal local avant de lancer le serveur local)
+
 ### Instructions
 
 1. Fork this repo

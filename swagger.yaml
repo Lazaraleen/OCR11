@@ -101,13 +101,14 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-# Ajout d'endpoints pour les ajouts futurs du site
+
+# Ajout d'endpoints pour les ajouts futurs du site   ******************************************************
   /user/bankaccount:
     get:
       tags:
         - User Module
-      summary: Account
-      description: API for read account
+      summary: Bank Accounts
+      description: API for read accounts
       parameters:
         - in: body
           name: body
@@ -126,28 +127,54 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /user/transactions:
+
+    /user/bankaccount/{accountId}:
+    get:
+      tags:
+        - User Module
+      summary: Account
+      description: API for read transactions of the account
+      parameters:
+        - in: body
+          name: body
+          description: AccountId Payload
+          required: true
+          schema:
+            $ref: '#/definitions/AccountId'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Account Transactions Read Successfully
+          schema:
+            $ref: '#/definitions/AccountIdResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+
+  /user/{transactionId}:
     get:
       security:
         - Bearer: []
       tags:
         - User Module
       summary: User Transactions API
-      description: API for read transaction of the user profile
+      description: API for read the transaction selected
       parameters:
         - in: body
           name: body
           description: Transactions Payload
           required: true
           schema:
-            $ref: '#/definitions/Transactions'
+            $ref: '#/definitions/Transaction'
       produces:
         - application/json
       responses:
         '200':
           description: Transaction profile retrieved successully
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: '#/definitions/TransactionResponse'
         '400':
           description: Invalid Fields
         '500':
@@ -157,22 +184,22 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: User Transactions API
-      description: API for add a new transaction in the user profile
+      summary: User Transaction API
+      description: API for add a annotation in the transaction
       parameters:
         - in: body
           name: body
-          description: New Transactions Payload
+          description: New Transaction annotation Payload
           required: true
           schema:
-            $ref: '#/definitions/Transactions'
+            $ref: '#/definitions/Transaction'
       produces:
         - application/json
       responses:
         '200':
           description: Transaction profile add successully
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: '#/definitions/TransactionResponse'
         '400':
           description: Invalid Fields
         '500':
@@ -197,7 +224,32 @@ paths:
         '200':
           description: User transaction annotation update successully
           schema:
-            $ref: '#/definitions/ApiResponse'
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transactions API
+      description: API for delete a annotation in transaction of the user profile
+      parameters:
+        - in: body
+          name: body
+          description: Delete user transaction annotation
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction annotation delete successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
         '400':
           description: Invalid Fields
         '500':
@@ -259,3 +311,102 @@ definitions:
     properties:
       userName:
         type: string
+
+# Ajout d'endpoints pour les ajouts futurs du site   ******************************************************
+
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Transaction ID
+      date:
+        type: string
+        format: date-time
+        description: Transaction date
+      amount:
+        type: number
+        description: Transaction amount
+      description:
+        type: string
+        description: Description
+      transactionType:
+        type: string
+        description: Type of the transaction
+      accountName:
+        type: string
+        description: Account credit by the transaction
+      annotation:
+        type: string
+        description: Additional annotation for the transaction
+      balance:
+        type: string
+        description: Balance after the transaction
+  TransactionResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          annotation:
+            type: string
+  Account:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+  AccountResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+      accountName:
+        type: string
+        description: Account Name
+      amount:
+        type: number
+        description: Account amount
+      balance:
+        type: string
+        description: Balance
+  AccountId:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+      accountName:
+        type: string
+        description: Account name
+  AccountIdResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+      accountName:
+        type: string
+        description: Account Name
+      month:
+        type: date
+        description: current month
+      transactionId:
+        type: integer
+        description: transaction of the account 
+      amount:
+        type: number
+        description: Account amount
+      balance:
+        type: string
+        description: Balance
+
+# Faire aussi Account et AccountId 
+# Prévoir la réponse aussi...
