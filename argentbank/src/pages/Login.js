@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { setToken, setError } from '../redux/userSlice'; // Importer les actions nécessaires
 import axios from 'axios';
-import './style.css';
+import './style.min.css';
 
 function SignIn() {  
 
@@ -30,8 +30,6 @@ function SignIn() {
         // Effectuer la redirection manuelle vers la page "User.js" après la connexion réussie
         navigate("/user");
       } catch (error) {
-        console.error('Erreur lors de la connexion :', error.message);
-        // Dispatch l'action setError avec le message d'erreur approprié pour mettre à jour le state
         dispatch(setError("Erreur de connexion : email ou mot de passe incorrect."));
       }
   };

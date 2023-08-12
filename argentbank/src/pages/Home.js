@@ -1,6 +1,6 @@
 import React from "react";
 import CardCircle from "../components/cardCircle";
-import './style.css';
+import './style.min.css';
 
 function Home() {
     return (
