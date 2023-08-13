@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import callAPI from '../API/apiConnect';
 import { setToken, setError } from '../redux/userSlice'; // Importer les actions nécessaires
+import axios from 'axios';
 import './style.min.css';
 
 function SignIn() {  
@@ -12,19 +12,18 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const error = useSelector((state) => state.user.error);
-  // const token = useSelector((state) => state.user.token);
+  const token = useSelector((state) => state.user.token);
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-        const response = await callAPI("login", null, {
-          email: email,
-          password: password,
-        });        
-        const token = response.body.token; // Extract the token from the API response
-        console.log (token);
-        // // Mettre le token dans le localStorage
+        const response = await axios.post('http://localhost:3001/api/v1/user/login', {
+          email,
+          password,
+        });
+        const token = response.data.body.token;
+        // Mettre le token dans le localStorage
         localStorage.setItem('token', token);
         // Dispatch l'action setToken avec le token récupéré pour mettre à jour le state
         dispatch(setToken(token));
@@ -34,6 +33,11 @@ function SignIn() {
         dispatch(setError("Erreur de connexion : email ou mot de passe incorrect."));
       }
   };
+
+  // Effectuer la redirection manuelle vers la page "User.js" si le token est disponible
+  if (token) {
+    navigate("/user");
+  }
 
   return (
     <main className="main bg-dark">

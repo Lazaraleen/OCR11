@@ -20,6 +20,8 @@ function Modal() {
         try {
             const data = await callAPI ("profilePut", token, {userName: useName});
             dispatch(profilUser({data}));
+            // Réinitialiser le champ de saisie
+            setUseName(""); 
         } catch (error) {
             console.log (error, "Erreur à l'appel d'API pour le changement d'Username");
         }

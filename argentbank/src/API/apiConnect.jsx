@@ -28,20 +28,15 @@ const apiConnect = {
 
 // Gérer les appels à l'API
 
-export const callAPI = async (connect, token, data={}) => {
+export const callAPI = async (connect, token, data = {}) => {
     const connectAPI = apiConnect[connect];
     if (!connectAPI) {
-        console.error("Erreur de connexion à l'API");
+        console.error("Erreur à l'appel de connexion à l'API");
         return;
     }
     
-    const headers = {
-        "Content-Type": "application/json",
-    };
-
-    if (connectAPI.auth) {
-        headers.Authorization = `Bearer ${token}`;
-    }
+    const headers = {"Content-Type": "application/json",};
+    if (connectAPI.auth) {headers.Authorization = `Bearer ${token}`;}
 
     try {
     const response = await axios({
@@ -57,4 +52,4 @@ export const callAPI = async (connect, token, data={}) => {
     }
 };
 
-// export default callAPI;
+export default callAPI;
