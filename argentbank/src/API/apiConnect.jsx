@@ -1,27 +1,27 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:3001/api/v1/user";
+const baseURL = "http://localhost:3001/api/v1";
 
 // Les connexions à l'API: méthode, url et besoin d'authentification
 const apiConnect = {
     login: {
         method: "post",
-        url: "/login",
+        url: "/user/login",
         auth: false,
     },
     signUp: {
         method: "post",
-        url: "/signup",
+        url: "/user/signup",
         auth: false,
     },
     profilePost: {
         method: "post",
-        url: "/profile",
+        url: "/user/profile",
         auth: true,
     },
     profilePut: {
         method: "put",
-        url: "/profile",
+        url: "/user/profile",
         auth: true,
     },
 };

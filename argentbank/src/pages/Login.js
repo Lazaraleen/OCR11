@@ -12,7 +12,6 @@ function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const error = useSelector((state) => state.user.error);
-  // const token = useSelector((state) => state.user.token);
   const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
@@ -22,8 +21,7 @@ function SignIn() {
           email: email,
           password: password,
         });        
-        const token = response.body.token; // Extract the token from the API response
-        console.log (token);
+        const token = response.body.token; // Extrait le token de la réponse API
         // // Mettre le token dans le localStorage
         localStorage.setItem('token', token);
         // Dispatch l'action setToken avec le token récupéré pour mettre à jour le state
@@ -42,7 +40,7 @@ function SignIn() {
         <h1>Sign In</h1>
         <form onSubmit={handleSignIn}>
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Email</label>
             <input 
               type="text" 
               id="email" 
