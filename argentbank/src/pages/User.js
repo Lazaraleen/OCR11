@@ -21,7 +21,7 @@ function User() {
                 console.log (error, "Erreur à l'appel d'API");
             }
         };
-        dataUser();
+        dataUser(); 
     });
 
     return (
