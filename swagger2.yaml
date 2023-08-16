@@ -1,0 +1,264 @@
+swagger: '2.0'
+info:
+  title: Bank Argent API documentation
+  description: Contains all available API endpoints in this codebase
+  version: '1.0.0'
+  termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+  /user/bankaccount:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Bank Accounts
+      description: API for read accounts
+      parameters:
+        - in: body
+          name: body
+          description: Account Payload
+          required: true
+          schema:
+            $ref: '#/definitions/Account'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Accounts Read Successfully
+          schema:
+            $ref: '#/definitions/AccountResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+
+    /user/accountId:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: Account
+      description: API for read transactions of the account
+      parameters:
+        - in: body
+          name: body
+          description: AccountId Payload
+          required: true
+          schema:
+            $ref: '#/definitions/AccountId'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Account Transactions Read Successfully
+          schema:
+            $ref: '#/definitions/AccountIdResponse'
+        '400':
+          description: Invalid Fields
+
+  /user/{transactionId}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transactions API
+      description: API for read the transaction selected
+      parameters:
+        - in: body
+          name: body
+          description: Transactions Payload
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction profile retrieved successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transaction API
+      description: API for add a annotation in the transaction
+      parameters:
+        - in: body
+          name: body
+          description: New Transaction annotation Payload
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: Transaction profile add successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transactions API
+      description: API for update annotation in transaction of the user profile
+      parameters:
+        - in: body
+          name: body
+          description: Update user transaction annotation
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction annotation update successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - User Module
+      summary: User Transactions API
+      description: API for delete a annotation in transaction of the user profile
+      parameters:
+        - in: body
+          name: body
+          description: Delete user transaction annotation
+          required: true
+          schema:
+            $ref: '#/definitions/Transaction'
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: User transaction annotation delete successully
+          schema:
+            $ref: '#/definitions/TransactionResponse'
+        '400':
+          description: Invalid Fields
+        '500':
+          description: Internal Server Error
+
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Transaction:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Transaction ID
+      date:
+        type: string
+        format: date-time
+        description: Transaction date
+      amount:
+        type: number
+        description: Transaction amount
+      description:
+        type: string
+        description: Description
+      transactionType:
+        type: string
+        description: Type of the transaction
+      accountName:
+        type: string
+        description: Account credit by the transaction
+      annotation:
+        type: string
+        description: Additional annotation for the transaction
+      balance:
+        type: string
+        description: Balance after the transaction
+  TransactionResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+          annotation:
+            type: string
+  Account:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+  AccountResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+      accountName:
+        type: string
+        description: Account Name
+      amount:
+        type: number
+        description: Account amount
+      balance:
+        type: string
+        description: Balance
+  AccountId:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+      accountName:
+        type: string
+        description: Account name
+  AccountIdResponse:
+    type: object
+    properties:
+      id:
+        type: string
+        description: Account ID
+      accountName:
+        type: string
+        description: Account Name
+      month:
+        type: date
+        description: current month
+      transactionId:
+        type: integer
+        description: transaction of the account 
+      amount:
+        type: number
+        description: Account amount
+      balance:
+        type: string
+        description: Balance
