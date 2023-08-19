@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import { profilUser } from "../redux/profilSlice";
 import { callAPI } from "../API/apiConnect";
@@ -8,8 +9,17 @@ import './style.min.css';
 
 function User() {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.user.token);
+    const token = localStorage.getItem('token');
     const userProfile = useSelector((state) => state.profil);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+      if (!token) {
+        // Redirige vers la page d'accueil si pas de token
+        return navigate("/");
+        ;
+      }
+    });
 
     useEffect(() => {
         // récupérer les données de l'utilisateur

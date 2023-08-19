@@ -4,9 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/userSlice';
 import logo from '../assets/img/argentBankLogo-min.png';
 
+
 function Header() {
     const dispatch = useDispatch();
-    const token = useSelector((state) => state.user.token);
+    const token = localStorage.getItem('token');
+    // const token = useSelector((state) => state.user.token);
     const userProfile = useSelector((state) => state.profil);
 
     const handleLogout = () => {
@@ -32,7 +34,7 @@ function Header() {
                     <>
                     <NavLink to="/user" className="main-nav-item">
                         <i className="fa fa-user-circle"></i>
-                        {userProfile.firstName}
+                        {userProfile.userName}
                     </NavLink>
                     <NavLink to="/" onClick={handleLogout} className="main-nav-item">
                         <i className="fa fa-sign-out"></i>
