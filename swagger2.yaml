@@ -1,264 +1,186 @@
-swagger: '2.0'
+openapi: 3.0.3
 info:
   title: Bank Argent API documentation
   description: Contains all available API endpoints in this codebase
   version: '1.0.0'
   termsOfService: 'http://swagger.io/terms/'
-host: localhost:3001
-basePath: /api/v1
-schemes:
-  - http
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: http://localhost:3001/api/v1
+tags:
+  - name: User Bank Account
+    description: Operations about user
 paths:
-  /user/bankaccount:
+  /user/bankAccount:
     get:
-      security:
-        - Bearer: []
       tags:
-        - User Module
-      summary: Bank Accounts
-      description: API for read accounts
-      parameters:
-        - in: body
-          name: body
-          description: Account Payload
-          required: true
-          schema:
-            $ref: '#/definitions/Account'
-      produces:
-        - application/json
+        - User Bank Account
+      summary: All Bank Accounts Summary
+      description: API for read all accounts of the user
+      operationId: createUser
       responses:
-        '200':
-          description: Accounts Read Successfully
-          schema:
-            $ref: '#/definitions/AccountResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-
-    /user/accountId:
-    get:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankAccount'
       security:
-        - Bearer: []
+        - api_key: []
+  /user/{accountId}:
+    get:
       tags:
-        - User Module
+        - User Bank Account
       summary: Account
       description: API for read transactions of the account
       parameters:
-        - in: body
-          name: body
-          description: AccountId Payload
+        - name: accountId
+          in: path
+          description: ID of the account
           required: true
           schema:
-            $ref: '#/definitions/AccountId'
-      produces:
-        - application/json
+            type: integer
+            format: int64
       responses:
         '200':
-          description: Account Transactions Read Successfully
-          schema:
-            $ref: '#/definitions/AccountIdResponse'
-        '400':
-          description: Invalid Fields
-
-  /user/{transactionId}:
-    get:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountIdResponse' 
+        default:
+          description: successful operation
       security:
-        - Bearer: []
+        - api_key: []
+        - bankstore_auth:
+            - read:bank
+  /user/bankAccount/{transactionId}:
+    post:
       tags:
-        - User Module
+        - User Bank Account
       summary: User Transactions API
       description: API for read the transaction selected
       parameters:
-        - in: body
-          name: body
-          description: Transactions Payload
-          required: true
+        - name: transactionId
+          in: path
+          description: ID of the transaction
           schema:
-            $ref: '#/definitions/Transaction'
-      produces:
-        - application/json
+            $ref: '#/components/schemas/Transaction'
+          required: true
       responses:
         '200':
-          description: Transaction profile retrieved successully
-          schema:
-            $ref: '#/definitions/TransactionResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-    post:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse' 
+        default:
+          description: successful operation
       security:
-        - Bearer: []
-      tags:
-        - User Module
-      summary: User Transaction API
-      description: API for add a annotation in the transaction
-      parameters:
-        - in: body
-          name: body
-          description: New Transaction annotation Payload
-          required: true
-          schema:
-            $ref: '#/definitions/Transaction'
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: Transaction profile add successully
-          schema:
-            $ref: '#/definitions/TransactionResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
+        - api_key: []
+        - bankstore_auth:
+            - read:bank
+            - write:bank
     put:
-      security:
-        - Bearer: []
       tags:
-        - User Module
+        - User Bank Account
       summary: User Transactions API
-      description: API for update annotation in transaction of the user profile
+      description: API for read the transaction selected
       parameters:
-        - in: body
-          name: body
-          description: Update user transaction annotation
-          required: true
+        - name: transactionId
+          in: path
+          description: ID of the transaction
           schema:
-            $ref: '#/definitions/Transaction'
-      produces:
-        - application/json
+            $ref: '#/components/schemas/Transaction'
+          required: true
       responses:
         '200':
-          description: User transaction annotation update successully
-          schema:
-            $ref: '#/definitions/TransactionResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-    delete:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionResponse' 
+        default:
+          description: successful operation
       security:
-        - Bearer: []
-      tags:
-        - User Module
-      summary: User Transactions API
-      description: API for delete a annotation in transaction of the user profile
-      parameters:
-        - in: body
-          name: body
-          description: Delete user transaction annotation
-          required: true
-          schema:
-            $ref: '#/definitions/Transaction'
-      produces:
-        - application/json
-      responses:
-        '200':
-          description: User transaction annotation delete successully
-          schema:
-            $ref: '#/definitions/TransactionResponse'
-        '400':
-          description: Invalid Fields
-        '500':
-          description: Internal Server Error
-
-securityDefinitions:
-  Bearer:
-    type: apiKey
-    name: Authorization
-    in: header
-definitions:
-  Transaction:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Transaction ID
-      date:
-        type: string
-        format: date-time
-        description: Transaction date
-      amount:
-        type: number
-        description: Transaction amount
-      description:
-        type: string
-        description: Description
-      transactionType:
-        type: string
-        description: Type of the transaction
-      accountName:
-        type: string
-        description: Account credit by the transaction
-      annotation:
-        type: string
-        description: Additional annotation for the transaction
-      balance:
-        type: string
-        description: Balance after the transaction
-  TransactionResponse:
-    type: object
-    properties:
-      status:
-        type: integer
-      message:
-        type: string
-      body:
-        type: object
-        properties:
-          id:
-            type: string
-          annotation:
-            type: string
-  Account:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Account ID
-  AccountResponse:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Account ID
-      accountName:
-        type: string
-        description: Account Name
-      amount:
-        type: number
-        description: Account amount
-      balance:
-        type: string
-        description: Balance
-  AccountId:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Account ID
-      accountName:
-        type: string
-        description: Account name
-  AccountIdResponse:
-    type: object
-    properties:
-      id:
-        type: string
-        description: Account ID
-      accountName:
-        type: string
-        description: Account Name
-      month:
-        type: date
-        description: current month
-      transactionId:
-        type: integer
-        description: transaction of the account 
-      amount:
-        type: number
-        description: Account amount
-      balance:
-        type: string
-        description: Balance
+        - api_key: []
+        - bankstore_auth:
+            - read:bank
+            - write:bank
+    
+components:
+  schemas:
+    BankAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Account ID
+        accountName:
+          type: string
+          description: Account Name
+        amount:
+          type: number
+          description: Account amount
+        balance:
+          type: string
+          description: Balance
+    AccountId:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Account ID
+    AccountIdResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Account ID
+        accountName:
+          type: string
+          description: Account Name
+        month:
+          type: string
+          format: date-time
+          description: current month
+        transactionId:
+          type: integer
+          description: transaction of the account 
+        amount:
+          type: number
+          description: Account amount
+        balance:
+          type: string
+          description: Balance
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Transaction ID
+    TransactionResponse:
+      type: object
+      properties:
+        annotation:
+          type: string
+          description: Note for the Transaction
+        category:
+          type: string
+          description: Category ofs the Transaction
+    
+  securitySchemes:
+    bankstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: http://localhost:3001/api/v1/oauth/authorize
+          scopes:
+            write:bank: modify notes in your account
+            read:bank: read your account
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
