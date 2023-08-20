@@ -23,7 +23,7 @@ function SignIn() {
         });        
         const token = response.body.token; // Extrait le token de la réponse API
         // // Mettre le token dans le localStorage
-        localStorage.setItem('token', token);
+        // localStorage.setItem('token', token);
         // Dispatch l'action setToken avec le token récupéré pour mettre à jour le state
         dispatch(setToken(token));
         // Effectuer la redirection manuelle vers la page "User.js" après la connexion réussie

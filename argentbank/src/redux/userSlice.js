@@ -20,9 +20,10 @@ const userSlice = createSlice({
       state.error = action.payload;
     },
     // Action pour effacer les informations lorsqu'il se déconnecte
-    logout: (state,action) => {
-      state.token = action.payload.log;
-      localStorage.removeItem('token');
+    logout: (state) => {
+      state.token = null;
+      state.error = null;
+      // localStorage.removeItem('token');
     },
   },
 });

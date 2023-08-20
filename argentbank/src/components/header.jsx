@@ -4,17 +4,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../redux/userSlice';
 import logo from '../assets/img/argentBankLogo-min.png';
 
-
 function Header() {
     const dispatch = useDispatch();
-    const token = localStorage.getItem('token');
-    // const token = useSelector((state) => state.user.token);
+    // const token = localStorage.getItem('token');
+    const token = useSelector((state) => state.user.token);
     const userProfile = useSelector((state) => state.profil);
 
     const handleLogout = () => {
+        // Supprimer le token de localStorage
+        localStorage.removeItem('token');
         // Dispatch de l'action "logout" pour supprimer le token
         dispatch(logout());
     };
+
     
     return (
         <nav className="main-nav">

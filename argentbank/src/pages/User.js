@@ -9,7 +9,8 @@ import './style.min.css';
 
 function User() {
     const dispatch = useDispatch();
-    const token = localStorage.getItem('token');
+    const token = useSelector((state) => state.user.token);
+    // const token = localStorage.getItem('token');
     const userProfile = useSelector((state) => state.profil);
     const navigate = useNavigate();
 
